@@ -1,7 +1,7 @@
 import { CONFIG } from './config.js';
 import { BathyGrid, waterHeight } from './bathy.js';
 import { createBathyLayer, createWaterLayer } from './layers.js';
-import { fetchTideHeight, fetchTideSeries, hasTideApiKey, setTideApiKey } from './tide.js';
+import { fetchTideHeight, fetchTideSeries } from './tide.js';
 
 const L = window.L;
 
@@ -127,7 +127,6 @@ async function configureAerialProviders() {
   const googleOption = $('aerialProvider').querySelector('option[value="google"]');
   googleOption.disabled = true;
   googleOption.textContent = 'Google Satellite — serveur requis';
-  if (hasTideApiKey()) $('tideApiKey').placeholder = 'Clé enregistrée dans ce navigateur';
 }
 
 async function updateGoogleAttribution() {
@@ -174,15 +173,6 @@ function wireControls() {
   $('datumOffset').value = CONFIG.BATHY_DATUM_OFFSET;
 
   $('datetime').addEventListener('change', onDatetimeChange);
-
-  $('saveTideApiKey').addEventListener('click', async () => {
-    const key = $('tideApiKey').value.trim();
-    if (!key) return setStatus('Saisissez une clé api-maree.fr.', true);
-    setTideApiKey(key);
-    $('tideApiKey').value = '';
-    $('tideApiKey').placeholder = 'Clé enregistrée dans ce navigateur';
-    await onDatetimeChange();
-  });
 
   $('aerialProvider').addEventListener('change', (e) => setAerialProvider(e.target.value));
 
