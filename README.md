@@ -1,5 +1,23 @@
 # Bathymétrie et marée — Ploumanac'h
 
+> Cette branche `githubio` contient aussi une version entièrement statique à la
+> racine du dépôt. Elle est directement publiable avec GitHub Pages, sans Node
+> ni npm. La clé api-maree.fr est saisie dans la page et conservée uniquement
+> dans le stockage local du navigateur.
+
+## Publication avec GitHub Pages
+
+Dans les paramètres GitHub du dépôt, ouvrir **Pages**, choisir **Deploy from a
+branch**, sélectionner la branche `githubio` et le dossier `/ (root)`.
+
+Pour tester localement la version statique :
+
+```bash
+python3 -m http.server 8000
+```
+
+Puis ouvrir <http://localhost:8000>.
+
 Carte interactive combinant la bathymétrie LITTO3D Shom/IGN, les hauteurs de
 marée et plusieurs vues aériennes. La grille bathymétrique nécessaire au
 fonctionnement est incluse dans le dépôt.
