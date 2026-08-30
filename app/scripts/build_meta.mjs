@@ -43,7 +43,7 @@ mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, 'bathy.bin'), Buffer.from(out.buffer));
 
 const meta = {
-  description: 'LITTO3D (Shom/IGN) MNT5m mosaic, Ploumanac\'h area, resampled to WGS84.',
+  description: 'LITTO3D (Shom/IGN) MNT5m mosaic, Côte de Granit Rose area, resampled to WGS84.',
   crs: 'EPSG:4326',
   width, height,
   // Pixel-corner geotransform (GDAL style): lon = originLon + (col+0.5)*dxLon

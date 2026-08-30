@@ -1,24 +1,24 @@
 {
-  "description": "LITTO3D (Shom/IGN) MNT5m mosaic, Ploumanac'h area, resampled to WGS84.",
+  "description": "LITTO3D (Shom/IGN) MNT5m mosaic, Côte de Granit Rose area, resampled to WGS84.",
   "crs": "EPSG:4326",
-  "width": 1234,
-  "height": 815,
-  "originLon": -3.5474089745872868,
+  "width": 2162,
+  "height": 799,
+  "originLon": -3.6152937488396977,
   "originLat": 48.84457019989989,
-  "dxLon": 0.0000595338133501,
-  "dyLat": -0.0000595338133501,
+  "dxLon": 0.000065389024221,
+  "dyLat": -0.000065389024221,
   "bounds": {
-    "west": -3.5474089745872868,
+    "west": -3.6152937488396977,
     "north": 48.84457019989989,
-    "east": -3.4739442489132633,
-    "south": 48.79605014201956
+    "east": -3.4739226784738957,
+    "south": 48.79232436954731
   },
   "nodata": -9999,
   "stats": {
-    "min": -36.94799041748047,
-    "max": 87.17386627197266,
-    "valid": 765855,
-    "total": 1005710
+    "min": -37.16400909423828,
+    "max": 87.2743911743164,
+    "valid": 1175557,
+    "total": 1727438
   },
   "valueSemantics": "elevation_positive_up",
   "verticalDatum": "IGN69"
