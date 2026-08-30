@@ -5,6 +5,7 @@ const SITE = 'ploumanac-h';
 const DATUM_OFFSET = -5.045;
 const ATTRIBUTION =
   'Données de marée fournies par api-maree.fr sous licence CC BY, calculées à partir de composantes harmoniques Ifremer / PREVIMER, elles-mêmes sous licence CC BY.';
+const dailySeriesCache = new Map();
 
 function apiKey() {
   return PUBLIC_API_KEY;
@@ -24,9 +25,7 @@ function interpolate(points, atMs) {
   return points.at(-1).h;
 }
 
-export async function fetchTideSeries(_lat, _lon, isoDate) {
-  const date = new Date(isoDate);
-  const start = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+async function loadTideSeries(start) {
   const end = new Date(start.getTime() + 86400000);
   const format = (value) => value.toISOString().slice(0, 16);
   const url = new URL('https://api-maree.fr/water-levels');
@@ -55,6 +54,26 @@ export async function fetchTideSeries(_lat, _lon, isoDate) {
       h: Number(point.height) + DATUM_OFFSET,
     })),
   };
+}
+
+export async function fetchTideSeries(_lat, _lon, isoDate) {
+  const date = new Date(isoDate);
+  const start = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const cacheKey = `${SITE}:${start.toISOString().slice(0, 10)}`;
+
+  if (!dailySeriesCache.has(cacheKey)) {
+    // Store the promise immediately so simultaneous height and chart requests
+    // share the same network call.
+    dailySeriesCache.set(cacheKey, loadTideSeries(start));
+  }
+
+  try {
+    return await dailySeriesCache.get(cacheKey);
+  } catch (error) {
+    // Do not permanently cache a transient API or network failure.
+    dailySeriesCache.delete(cacheKey);
+    throw error;
+  }
 }
 
 export async function fetchTideHeight(lat, lon, isoDatetime) {
