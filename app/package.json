@@ -1,0 +1,16 @@
+{
+  "name": "ploumanach-bathy-tide",
+  "version": "0.1.0",
+  "description": "Interactive bathymetry + tide water-height map around Ploumanac'h",
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file-if-exists=.env --watch server.js",
+    "preprocess": "bash scripts/preprocess.sh"
+  },
+  "dependencies": {}
+}

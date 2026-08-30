@@ -1,0 +1,15 @@
+# Secrets and local configuration
+.env
+app/.env
+
+# Dependencies
+node_modules/
+
+# Generated preprocessing files and source datasets
+app/.gdal_work/
+scratch_gdal/
+0220_6880/
+
+# Editor and operating-system files
+.DS_Store
+*.swp

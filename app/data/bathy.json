@@ -1,0 +1,25 @@
+{
+  "description": "LITTO3D (Shom/IGN) MNT5m mosaic, Ploumanac'h area, resampled to WGS84.",
+  "crs": "EPSG:4326",
+  "width": 1234,
+  "height": 815,
+  "originLon": -3.5474089745872868,
+  "originLat": 48.84457019989989,
+  "dxLon": 0.0000595338133501,
+  "dyLat": -0.0000595338133501,
+  "bounds": {
+    "west": -3.5474089745872868,
+    "north": 48.84457019989989,
+    "east": -3.4739442489132633,
+    "south": 48.79605014201956
+  },
+  "nodata": -9999,
+  "stats": {
+    "min": -36.94799041748047,
+    "max": 87.17386627197266,
+    "valid": 765855,
+    "total": 1005710
+  },
+  "valueSemantics": "elevation_positive_up",
+  "verticalDatum": "IGN69"
+}

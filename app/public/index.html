@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bathymétrie & marée — Ploumanac'h</title>
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <aside id="panel">
+    <h1>Ploumanac'h — Hauteur d'eau</h1>
+    <p class="sub">Bathymétrie LITTO3D (Shom/IGN) × marée. Cliquez la carte pour un point.</p>
+
+    <label class="ctrl">
+      <span>Date & heure</span>
+      <input type="datetime-local" id="datetime" />
+    </label>
+
+    <label class="ctrl time-slider">
+      <span>Heure affichée : <b id="timeSliderVal">—</b></span>
+      <input type="range" id="timeSlider" min="0" max="1435" step="5" value="720" />
+      <span class="time-scale"><i>00:00</i><i>12:00</i><i>23:55</i></span>
+    </label>
+
+    <div id="tideReadout" class="readout">Niveau de marée: —</div>
+    <canvas id="tideCurve" width="288" height="86" class="curve"></canvas>
+    <div id="tideChartValue" class="chart-value">Marégramme : —</div>
+
+    <label class="ctrl">
+      <span>Fournisseur de la vue aérienne</span>
+      <select id="aerialProvider">
+        <option value="esri">Esri World Imagery</option>
+        <option value="ign">IGN — Orthophotographies</option>
+        <option value="google">Google Satellite</option>
+      </select>
+    </label>
+
+    <label class="ctrl">
+      <span>Opacité vue aérienne : <b id="aerialOpacityVal">65%</b></span>
+      <input type="range" id="aerialOpacity" min="0" max="100" step="1" value="65" />
+    </label>
+
+    <label class="ctrl">
+      <span>Seuil de hauteur d'eau : <b id="thresholdVal">2.0</b> m</span>
+      <input type="range" id="threshold" min="-5" max="20" step="0.1" value="2" />
+    </label>
+
+    <label class="ctrl">
+      <span>Opacité couche seuil : <b id="opacityVal">100%</b></span>
+      <input type="range" id="opacity" min="0" max="100" step="1" value="100" />
+    </label>
+
+    <div class="legend">
+      <span><i style="background:#2ecc71"></i> ≥ seuil (assez d'eau)</span>
+      <span><i style="background:#e74c3c"></i> &lt; seuil (trop bas / exondé)</span>
+    </div>
+
+    <details class="advanced">
+      <summary>Convention bathymétrique</summary>
+      <label class="ctrl">
+        <span>Signe des données</span>
+        <select id="sign">
+          <option value="1">Élévation (positif vers le haut)</option>
+          <option value="-1">Profondeur (positif vers le bas)</option>
+        </select>
+      </label>
+      <label class="ctrl">
+        <span>Décalage de datum (m)</span>
+        <input type="number" id="datumOffset" step="0.1" value="0" />
+      </label>
+      <p class="hint">élévation = signe × valeur + décalage · hauteur d'eau = marée − élévation</p>
+    </details>
+
+    <div id="status" class="status"></div>
+    <p id="tideAttribution" class="attribution" hidden></p>
+  </aside>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
