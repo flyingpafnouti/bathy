@@ -1,7 +1,7 @@
 import { CONFIG } from './config.js';
 import { BathyGrid, waterHeight } from './bathy.js';
 import { createBathyLayer, createWaterLayer } from './layers.js';
-import { fetchTideHeight, fetchTideSeries } from './tide.js';
+import { DATUM_OFFSET, fetchTideHeight, fetchTideSeries } from './tide.js';
 
 const L = window.L;
 
@@ -16,6 +16,7 @@ const state = {
   datetimeISO: null,
   clickMarker: null,
   tideRequestId: 0,
+  manualTide: false,
 };
 
 let timeSliderTimer;
@@ -174,6 +175,16 @@ function wireControls() {
 
   $('datetime').addEventListener('change', onDatetimeChange);
 
+  $('manualTide').addEventListener('input', (e) => {
+    applyManualTide(Number(e.target.value));
+  });
+
+  $('retryTideApi').addEventListener('click', async () => {
+    state.manualTide = false;
+    $('manualTidePanel').hidden = true;
+    await onDatetimeChange();
+  });
+
   $('aerialProvider').addEventListener('change', (e) => setAerialProvider(e.target.value));
 
   $('timeSlider').addEventListener('input', (e) => {
@@ -227,6 +238,10 @@ async function onDatetimeChange() {
   syncTimeSlider(dt);
   state.datetimeISO = dt.toISOString();
   const requestId = ++state.tideRequestId;
+  if (state.manualTide) {
+    applyManualTide(Number($('manualTide').value));
+    return;
+  }
   const [lat, lon] = CONFIG.center;
   setStatus('Chargement de la marée…');
   try {
@@ -234,18 +249,54 @@ async function onDatetimeChange() {
     if (requestId !== state.tideRequestId) return;
     state.tideLevel = tide.height;
     state.tideMeta = tide;
+    $('manualTidePanel').hidden = true;
     renderTideReadout();
     waterLayer.refresh();
     drawTideCurve(lat, lon, dt, requestId);
   } catch (err) {
     if (requestId !== state.tideRequestId) return;
-    setStatus(`Erreur marée: ${err.message}`, true);
+    enableManualTide(err.message);
   }
+}
+
+function applyManualTide(heightZH) {
+  state.manualTide = true;
+  state.tideLevel = heightZH + DATUM_OFFSET;
+  state.tideMeta = {
+    provider: 'manual',
+    datum: 'IGN69',
+    sourceDatum: 'ZH',
+    datumOffset: DATUM_OFFSET,
+    at: state.datetimeISO,
+  };
+  $('manualTideVal').textContent = `${heightZH.toFixed(1)} m`;
+  renderTideReadout();
+  waterLayer.refresh();
+  drawManualTideNotice();
+}
+
+function enableManualTide(reason) {
+  $('manualTidePanel').hidden = false;
+  applyManualTide(Number($('manualTide').value));
+  setStatus(`API indisponible (${reason}). Hauteur manuelle utilisée.`, true);
+}
+
+function drawManualTideNotice() {
+  const canvas = $('tideCurve');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#ffcf78';
+  ctx.font = '12px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('Marégramme indisponible — mode manuel', canvas.width / 2, canvas.height / 2);
+  ctx.textAlign = 'start';
 }
 
 function renderTideReadout() {
   const t = state.tideMeta;
-  const badge = t.provider === 'mock' ? ' <span class="badge">simulée</span>' : '';
+  const badge = t.provider === 'mock'
+    ? ' <span class="badge">simulée</span>'
+    : t.provider === 'manual' ? ' <span class="badge manual">manuelle</span>' : '';
   $('tideReadout').innerHTML =
     `Niveau de marée: <strong>${state.tideLevel.toFixed(2)} m</strong> / ${t.datum}${badge}`;
   const when = new Date(state.datetimeISO).toLocaleTimeString('fr-FR', {

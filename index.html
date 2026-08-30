@@ -29,6 +29,15 @@
     <canvas id="tideCurve" width="288" height="86" class="curve"></canvas>
     <div id="tideChartValue" class="chart-value">Marégramme : —</div>
 
+    <div id="manualTidePanel" class="manual-tide" hidden>
+      <div class="manual-title">Mode dégradé — hauteur manuelle</div>
+      <label class="ctrl">
+        <span>Hauteur au-dessus du ZH : <b id="manualTideVal">6.0 m</b></span>
+        <input type="range" id="manualTide" min="0" max="12" step="0.1" value="6" />
+      </label>
+      <button type="button" id="retryTideApi">Réessayer l’API de marée</button>
+    </div>
+
     <label class="ctrl">
       <span>Fournisseur de la vue aérienne</span>
       <select id="aerialProvider">

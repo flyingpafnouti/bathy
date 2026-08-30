@@ -2,7 +2,7 @@
 // This key is intentionally public so the static application works immediately.
 const PUBLIC_API_KEY = '130867c3dfbac7ee9f2be263565675db';
 const SITE = 'ploumanac-h';
-const DATUM_OFFSET = -5.045;
+export const DATUM_OFFSET = -5.045;
 const ATTRIBUTION =
   'Données de marée fournies par api-maree.fr sous licence CC BY, calculées à partir de composantes harmoniques Ifremer / PREVIMER, elles-mêmes sous licence CC BY.';
 const dailySeriesCache = new Map();

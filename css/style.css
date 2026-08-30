@@ -25,12 +25,18 @@ html, body { margin: 0; height: 100%; font-family: system-ui, -apple-system, Seg
 
 .readout { background: #0f1620; border: 1px solid #2a3646; border-radius: 8px; padding: 8px 10px; margin: 6px 0; }
 .readout .badge { background: #6b4bff; color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 6px; margin-left: 4px; }
+.readout .badge.manual { background: #b47b25; }
 .curve { width: 100%; height: 86px; background: #0f1620; border: 1px solid #2a3646; border-radius: 8px; margin-bottom: 6px; }
 .time-slider { margin-bottom: 8px; }
 .time-slider input { width: 100%; accent-color: #ffcc00; }
 .time-scale { display: flex !important; justify-content: space-between; margin-top: 2px; }
 .time-scale i { color: var(--muted); font-size: 9px; font-style: normal; }
 .chart-value { margin: -1px 0 8px; color: #ffdc55; font-size: 12px; text-align: center; }
+.manual-tide { margin: 8px 0 12px; padding: 9px; border: 1px solid #b47b25; border-radius: 8px; background: #2a2114; }
+.manual-title { color: #ffcf78; font-size: 12px; font-weight: 700; }
+.manual-tide .ctrl { margin: 8px 0; }
+.manual-tide input[type="range"] { accent-color: #ffb84d; }
+.manual-tide button { width: 100%; padding: 6px 8px; border: 1px solid #b47b25; border-radius: 6px; background: #171f2b; color: var(--fg); cursor: pointer; }
 
 .legend { display: flex; flex-direction: column; gap: 4px; margin: 10px 0; font-size: 12px; color: var(--muted); }
 .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
