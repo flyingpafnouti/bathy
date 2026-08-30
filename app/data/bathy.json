@@ -1,25 +1,28 @@
 {
-  "description": "LITTO3D (Shom/IGN) MNT5m mosaic, Côte de Granit Rose area, resampled to WGS84.",
+  "description": "LITTO3D (Shom/IGN) conservative 5 m mosaic, maximum MNT1m elevation per cell, resampled to WGS84.",
   "crs": "EPSG:4326",
   "width": 3387,
   "height": 1590,
-  "originLon": -3.683168722836935,
-  "originLat": 48.84457019989989,
-  "dxLon": 0.0000634202836683,
-  "dyLat": -0.0000634202836683,
+  "originLon": -3.6831319087849557,
+  "originLat": 48.844549635147494,
+  "dxLon": 0.0000634202536665,
+  "dyLat": -0.0000634202536665,
   "bounds": {
-    "west": -3.683168722836935,
-    "north": 48.84457019989989,
-    "east": -3.468364222052403,
-    "south": 48.74373194886729
+    "west": -3.6831319087849557,
+    "north": 48.844549635147494,
+    "east": -3.46832750961652,
+    "south": 48.74371143181776
   },
   "nodata": -9999,
   "stats": {
-    "min": -38.08000183105469,
-    "max": 101.30218505859375,
-    "valid": 2292242,
+    "min": -36.7599983215332,
+    "max": 101.55000305175781,
+    "valid": 2368303,
     "total": 5385330
   },
   "valueSemantics": "elevation_positive_up",
-  "verticalDatum": "IGN69"
+  "verticalDatum": "IGN69",
+  "sourceResolutionMetres": 1,
+  "targetResolutionMetres": 5,
+  "aggregation": "maximum_elevation_conservative"
 }

@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Bathymetry preprocessing pipeline (requires GDAL CLI).
 #
-# Mosaics all LITTO3D MNT5m ASCII tiles, reprojects Lambert-93/IGN69 -> WGS84,
-# and emits the compact grid consumed by the web app (data/bathy.bin + .json).
+# Mosaics all LITTO3D MNT1m ASCII tiles, aggregates them to 5 m by taking the
+# maximum elevation in each output cell (conservative water-depth convention),
+# reprojects Lambert-93/IGN69 -> WGS84 with max resampling, and emits the compact
+# grid consumed by the web app (data/bathy.bin + .json).
 #
 # Usage:  ./scripts/preprocess.sh [RAW_DATA_DIR]
 #   RAW_DATA_DIR defaults to the repository root and collects every delivered
@@ -17,18 +19,23 @@ OUT="$APP_DIR/data"
 
 mkdir -p "$WORK" "$OUT"
 
-echo "==> Collecting MNT5m tiles from $DATA_SRC"
-find "$(cd "$DATA_SRC" && pwd)" -path '*/MNT5m/*.asc' | sort > "$WORK/tiles.txt"
+echo "==> Collecting MNT1m tiles from $DATA_SRC"
+find "$(cd "$DATA_SRC" && pwd)" -path '*/MNT1m/*.asc' | sort > "$WORK/tiles.txt"
 echo "    $(wc -l < "$WORK/tiles.txt") tiles"
 
-echo "==> Building VRT mosaic (EPSG:2154)"
+echo "==> Building 1 m VRT mosaic (EPSG:2154)"
 gdalbuildvrt -a_srs EPSG:2154 -vrtnodata -99999 \
-  "$WORK/mosaic.vrt" $(cat "$WORK/tiles.txt") >/dev/null
+  "$WORK/mosaic_1m.vrt" $(cat "$WORK/tiles.txt") >/dev/null
 
-echo "==> Warping to WGS84 (bilinear)"
-gdalwarp -overwrite -s_srs EPSG:2154 -t_srs EPSG:4326 -r bilinear \
+echo "==> Aggregating to aligned 5 m cells (maximum elevation)"
+gdalwarp -overwrite -s_srs EPSG:2154 -t_srs EPSG:2154 -tr 5 5 -tap -r max \
   -srcnodata -99999 -dstnodata -99999 -of GTiff -co COMPRESS=DEFLATE \
-  "$WORK/mosaic.vrt" "$WORK/mosaic_wgs84.tif" >/dev/null
+  "$WORK/mosaic_1m.vrt" "$WORK/mosaic_5m_max_l93.tif" >/dev/null
+
+echo "==> Warping to WGS84 (maximum elevation)"
+gdalwarp -overwrite -s_srs EPSG:2154 -t_srs EPSG:4326 -r max \
+  -srcnodata -99999 -dstnodata -99999 -of GTiff -co COMPRESS=DEFLATE \
+  "$WORK/mosaic_5m_max_l93.tif" "$WORK/mosaic_wgs84.tif" >/dev/null
 
 echo "==> Exporting raw Float32 (ENVI)"
 gdal_translate -of ENVI -ot Float32 \
