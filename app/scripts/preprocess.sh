@@ -5,12 +5,13 @@
 # and emits the compact grid consumed by the web app (data/bathy.bin + .json).
 #
 # Usage:  ./scripts/preprocess.sh [RAW_DATA_DIR]
-#   RAW_DATA_DIR defaults to ../0220_6880 (the delivered LITTO3D folder).
+#   RAW_DATA_DIR defaults to the repository root and collects every delivered
+#   LITTO3D package (for example 0215_6880 and 0220_6880).
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 APP_DIR="$(dirname "$HERE")"
-DATA_SRC="${1:-$APP_DIR/../0220_6880}"
+DATA_SRC="${1:-$APP_DIR/..}"
 WORK="$APP_DIR/.gdal_work"
 OUT="$APP_DIR/data"
 
