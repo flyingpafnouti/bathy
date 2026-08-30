@@ -1,24 +1,24 @@
 {
   "description": "LITTO3D (Shom/IGN) MNT5m mosaic, Côte de Granit Rose area, resampled to WGS84.",
   "crs": "EPSG:4326",
-  "width": 2162,
-  "height": 799,
+  "width": 2468,
+  "height": 1631,
   "originLon": -3.6152937488396977,
   "originLat": 48.84457019989989,
-  "dxLon": 0.000065389024221,
-  "dyLat": -0.000065389024221,
+  "dxLon": 0.0000595215622667,
+  "dyLat": -0.0000595215622667,
   "bounds": {
     "west": -3.6152937488396977,
     "north": 48.84457019989989,
-    "east": -3.4739226784738957,
-    "south": 48.79232436954731
+    "east": -3.468394533165482,
+    "south": 48.74749053184291
   },
   "nodata": -9999,
   "stats": {
-    "min": -37.16400909423828,
-    "max": 87.2743911743164,
-    "valid": 1175557,
-    "total": 1727438
+    "min": -37.1134147644043,
+    "max": 101.25016021728516,
+    "valid": 2276489,
+    "total": 4025308
   },
   "valueSemantics": "elevation_positive_up",
   "verticalDatum": "IGN69"
