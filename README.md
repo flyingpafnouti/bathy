@@ -2,8 +2,8 @@
 
 > Cette branche `githubio` contient aussi une version entièrement statique à la
 > racine du dépôt. Elle est directement publiable avec GitHub Pages, sans Node
-> ni npm. La clé api-maree.fr est saisie dans la page et conservée uniquement
-> dans le stockage local du navigateur.
+> ni npm. Une clé api-maree.fr publique est intégrée directement au JavaScript ;
+> la page permet également de la remplacer localement dans le navigateur.
 
 ## Publication avec GitHub Pages
 

@@ -1,5 +1,6 @@
 // GitHub Pages client: api-maree.fr is called directly from the browser.
-// The key is deliberately kept out of Git and stored only in localStorage.
+// This key is intentionally public so the static application works immediately.
+const PUBLIC_API_KEY = '130867c3dfbac7ee9f2be263565675db';
 const KEY_STORAGE = 'apiMareeKey';
 const SITE = 'ploumanac-h';
 const DATUM_OFFSET = -5.045;
@@ -7,7 +8,7 @@ const ATTRIBUTION =
   'Données de marée fournies par api-maree.fr sous licence CC BY, calculées à partir de composantes harmoniques Ifremer / PREVIMER, elles-mêmes sous licence CC BY.';
 
 export function hasTideApiKey() {
-  return Boolean(localStorage.getItem(KEY_STORAGE));
+  return Boolean(localStorage.getItem(KEY_STORAGE) || PUBLIC_API_KEY);
 }
 
 export function setTideApiKey(key) {
@@ -15,9 +16,7 @@ export function setTideApiKey(key) {
 }
 
 function apiKey() {
-  const key = localStorage.getItem(KEY_STORAGE);
-  if (!key) throw new Error('saisissez votre clé api-maree.fr ci-dessus');
-  return key;
+  return localStorage.getItem(KEY_STORAGE) || PUBLIC_API_KEY;
 }
 
 function interpolate(points, atMs) {
