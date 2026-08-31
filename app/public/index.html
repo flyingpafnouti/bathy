@@ -11,6 +11,15 @@
   <div id="map"></div>
 
   <aside id="panel">
+    <button type="button" id="panelToggle" class="panel-toggle" aria-expanded="true" aria-controls="panelContent">
+      <span class="panel-handle" aria-hidden="true"></span>
+      <span class="panel-heading">
+        <strong>Ploumanac'h — Hauteur d'eau</strong>
+      </span>
+      <span class="panel-chevron" aria-hidden="true"></span>
+    </button>
+
+    <div id="panelContent" class="panel-content">
     <h1>Ploumanac'h — Hauteur d'eau</h1>
     <p class="sub">Bathymétrie LITTO3D (Shom/IGN) × marée. Cliquez la carte pour un point.</p>
 
@@ -76,6 +85,7 @@
 
     <div id="status" class="status"></div>
     <p id="tideAttribution" class="attribution" hidden></p>
+    </div>
   </aside>
 
   <script src="/vendor/leaflet/leaflet.js"></script>

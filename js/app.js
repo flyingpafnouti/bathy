@@ -42,6 +42,27 @@ function syncTimeSlider(date) {
   $('timeSliderVal').textContent = formatMinutes(rounded);
 }
 
+function setupMobilePanel() {
+  const panel = $('panel');
+  const toggle = $('panelToggle');
+  const mobile = window.matchMedia('(max-width: 700px)');
+
+  const setCollapsed = (collapsed) => {
+    panel.classList.toggle('is-collapsed', collapsed && mobile.matches);
+    const expanded = !panel.classList.contains('is-collapsed');
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute('aria-label', expanded ? 'Fermer les réglages' : 'Ouvrir les réglages');
+    window.setTimeout(() => map.invalidateSize(), 260);
+  };
+
+  setCollapsed(mobile.matches);
+  toggle.addEventListener('click', () => setCollapsed(!panel.classList.contains('is-collapsed')));
+  mobile.addEventListener('change', (event) => setCollapsed(event.matches));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobile.matches) setCollapsed(true);
+  });
+}
+
 // ---- map -------------------------------------------------------------------
 const map = L.map('map', { center: CONFIG.center, zoom: CONFIG.zoom, minZoom: CONFIG.minZoom, maxZoom: CONFIG.maxZoom });
 
@@ -164,6 +185,7 @@ function setAerialProvider(provider) {
 
 // ---- controls --------------------------------------------------------------
 function wireControls() {
+  setupMobilePanel();
   $('threshold').value = state.threshold;
   $('thresholdVal').textContent = state.threshold.toFixed(1);
   $('opacity').value = Math.round(CONFIG.layerOpacity * 100);
